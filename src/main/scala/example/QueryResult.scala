@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream
 
 import org.apache.jena.query.{Query, QueryExecution, ResultSet, ResultSetFormatter}
 
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 case class QueryResult(executor: QueryExecution, query: Query) {
   def print(): Unit = {
@@ -19,8 +19,26 @@ case class QueryResult(executor: QueryExecution, query: Query) {
     }
   }
 
+  def asJsonOrError(): String = {
+    Try(executor.execSelect()).map { result =>
+      val outStream = new ByteArrayOutputStream()
+      ResultSetFormatter.outputAsJSON(outStream, result)
+      outStream.toString
+    } match {
+      case Success(value) => value
+      case Failure(exception) => exception.getMessage
+    }
+  }
+
   def asXML(): Option[String] = {
     Try(executor.execSelect()).toOption.map(ResultSetFormatter.asXMLString)
+  }
+
+  def asXMLOrError(): String = {
+    Try(executor.execSelect()).map(ResultSetFormatter.asXMLString) match {
+      case Success(value) => value
+      case Failure(exception) => exception.getMessage
+    }
   }
 
   def asCSV(): Option[String] = {
@@ -28,6 +46,26 @@ case class QueryResult(executor: QueryExecution, query: Query) {
       val outStream = new ByteArrayOutputStream()
       ResultSetFormatter.outputAsCSV(outStream, result)
       outStream.toString
+    }
+  }
+
+  def asCSVOrError(): String = {
+    Try(executor.execSelect()).map { result =>
+      val outStream = new ByteArrayOutputStream()
+      ResultSetFormatter.outputAsCSV(outStream, result)
+      outStream.toString
+    } match {
+      case Success(value) => value
+      case Failure(exception) => exception.getMessage
+    }
+  }
+
+  def asTextOrError(): String = {
+    Try(executor.execSelect()).map { result =>
+      ResultSetFormatter.asText(result, query)
+    } match {
+      case Success(value) => value
+      case Failure(exception) => exception.getMessage
     }
   }
 }
