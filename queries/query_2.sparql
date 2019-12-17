@@ -1,0 +1,16 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX lives: <http://example.org/lives>
+PREFIX capital: <http://dbpedia.org/class/yago/Capital108518505>
+PREFIX foaf:  <http://xmlns.com/foaf/0.1/>
+
+SELECT ?name ?city
+FROM <http://localhost:3030/ds/data/people>
+WHERE {
+  ?person lives: ?city .
+  ?person foaf:name ?name .
+  SERVICE <http://dbpedia.org/sparql> {
+    ?city a capital:
+  }
+}

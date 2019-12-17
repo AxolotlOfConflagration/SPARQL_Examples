@@ -1,0 +1,19 @@
+PREFIX dbo:<http://dbpedia.org/ontology/>
+PREFIX dbp:<http://dbpedia.org/property/>
+PREFIX dbpedia:<http://dbpedia.org/resource/>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX tto:<http://example.org/tuto/ontology#>
+PREFIX ttr:<http://example.org/tuto/resource#>
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+SELECT ?subject ?spouse ?ageDiff where {
+  SERVICE <http://dbpedia.org/sparql> {
+    ?subject dbp:spouse ?spouse .
+    ?subject a dbo:Person .
+    ?spouse a dbo:Person .
+    ?subject dbp:birthDate ?subjectAge .
+    ?spouse dbp:birthDate ?spouseAge .
+  }
+  # Computes the age difference
+  BIND (year(?subjectAge) - ( year(?spouseAge)) AS ?ageDiff )
+} LIMIT 50

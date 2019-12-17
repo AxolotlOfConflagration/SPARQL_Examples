@@ -12,7 +12,7 @@ case class QueryRunner(service: String) {
 
     val executor = QueryExecutionFactory.sparqlService(service, query)
     executor match {
-      case httpEngine: QueryEngineHTTP => httpEngine.addParam("timeout", "100000")
+      case httpEngine: QueryEngineHTTP => httpEngine.addParam("timeout", "10")
       case _ =>
     }
     QueryResult(executor, query)

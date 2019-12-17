@@ -1,0 +1,15 @@
+@prefix :      <http://example.org/people/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dbr: <http://dbpedia.org/resource/> .
+
+:people15  <http://example.org/lives>  dbr:Warsaw ;
+    foaf:name  "Alice"@us .
+
+:people16  <http://example.org/lives>  dbr:Berlin ;
+    foaf:name  "Bob"@us .
+
+:people17  <http://example.org/lives>  dbr:Poznan ;
+    foaf:name  "Charles"@us .
+
+:people18  <http://example.org/lives>  dbr:Konin ;
+    foaf:name  "Daisy"@us .

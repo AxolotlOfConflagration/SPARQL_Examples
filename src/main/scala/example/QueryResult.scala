@@ -25,8 +25,8 @@ case class QueryResult(executor: QueryExecution, query: Query) {
       ResultSetFormatter.outputAsJSON(outStream, result)
       outStream.toString
     } match {
-      case Success(value) => value
-      case Failure(exception) => exception.getMessage
+      case Success(value) => executor.close(); value
+      case Failure(exception) => executor.close(); exception.getMessage
     }
   }
 
@@ -36,8 +36,8 @@ case class QueryResult(executor: QueryExecution, query: Query) {
 
   def asXMLOrError(): String = {
     Try(executor.execSelect()).map(ResultSetFormatter.asXMLString) match {
-      case Success(value) => value
-      case Failure(exception) => exception.getMessage
+      case Success(value) => executor.close(); value
+      case Failure(exception) => executor.close(); exception.getMessage
     }
   }
 
@@ -55,8 +55,8 @@ case class QueryResult(executor: QueryExecution, query: Query) {
       ResultSetFormatter.outputAsCSV(outStream, result)
       outStream.toString
     } match {
-      case Success(value) => value
-      case Failure(exception) => exception.getMessage
+      case Success(value) => executor.close(); value
+      case Failure(exception) => executor.close(); exception.getMessage
     }
   }
 
@@ -64,8 +64,8 @@ case class QueryResult(executor: QueryExecution, query: Query) {
     Try(executor.execSelect()).map { result =>
       ResultSetFormatter.asText(result, query)
     } match {
-      case Success(value) => value
-      case Failure(exception) => exception.getMessage
+      case Success(value) => executor.close(); value
+      case Failure(exception) => executor.close(); exception.getMessage
     }
   }
 }

@@ -9,12 +9,7 @@ import scala.swing.event.ButtonClicked
 
 object GuiExamples extends SimpleSwingApplication {
 
-  //http://localhost:3030/ds/sparql
-
-  //  private val dbpediaRunner = QueryRunner("http://dbpedia.org/sparql")
   private var dbpediaRunner = QueryRunner("http://localhost:3030/ds/sparql")
-
-
   private val globalFond = new Font("Courier", 0, 12)
 
   val textInput = new TextArea {
@@ -78,13 +73,13 @@ object GuiExamples extends SimpleSwingApplication {
       contents += new Button {
         text = "Use DBpedia"
         reactions += {
-          case ButtonClicked(_) => dbpediaRunner = new QueryRunner("http://dbpedia.org/sparql")
+          case ButtonClicked(_) => dbpediaRunner = QueryRunner("http://dbpedia.org/sparql")
         }
       }
       contents += new Button {
         text = "Use Local Server"
         reactions += {
-          case ButtonClicked(_) => dbpediaRunner = new QueryRunner("http://localhost:3030/ds/sparql")
+          case ButtonClicked(_) => dbpediaRunner = QueryRunner("http://localhost:3030/ds/sparql")
         }
       }
     }, constraints(0, 0, gridwidth = 4))
